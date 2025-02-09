@@ -24,10 +24,12 @@
     "vue": "^3.5.13",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.5.0",
+    "vue-yup-form": "^1.0.8",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^22.12.0",
+    "@types/vue-router": "^2.0.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.20",

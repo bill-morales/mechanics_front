@@ -1,13 +1,58 @@
 <script setup lang="ts">
 import ButtonV from '@/components/buttonV.vue';
-import { ref } from 'vue';
-import ModalV from '@/components/ModalV.vue';
-import FormProveedor from '@/components/formularios/FormProveedor.vue';
-const isModalOpen = ref(false)
-const currentAction = ref('')
-const openModal = (action: string) => {
-    isModalOpen.value = true
-    currentAction.value = action
+import FormProveedor from '@/views/dashboard/proveedor/FormProveedor.vue';
+import { useModalStore } from '@/stores/modalStore';
+import type { IProveedor } from './types';
+import AlertForDelete from '@/components/AlertForDelete.vue';
+
+const PROVEDOR_DATA: IProveedor[] = [
+    {
+        id: 1,
+        name: 'Proveedor 1',
+        code: '123456',
+        address: 'Calle 123',
+        phone_number: '1234567890',
+        ruc: '1234567890',
+    },
+    {
+        id: 1,
+        name: 'Proveedor 2',
+        code: '123456',
+        address: 'Calle 123',
+        phone_number: '1234567890',
+        ruc: '1234567890',
+    },
+    {
+        id: 1,
+        name: "Proveedor 3",
+        code: "434343",
+        address: "Calle 123",
+        phone_number: "1234567890",
+        ruc: "1234567890",
+    }
+]
+
+const modalStore = useModalStore()
+
+const openNewProveedor = () => {
+    modalStore.openModal('Nuevo Proveedor', FormProveedor, {})
+}
+
+const handleDelete = (item: IProveedor) => {
+    console.log("peticion para elimianar proveedor")
+}
+
+const openDelteProveedor = (item: IProveedor) => {
+    modalStore.openModal('Eliminar Proveedor', AlertForDelete, {
+        msg: "Segiro que quieres eliminar el proveedor",
+        onDelete: () => handleDelete(item)
+    })
+} 
+
+const openModalEditProveedor = (action: string, item: IProveedor) => {
+    modalStore.openModal('Nuevo Proveedor', FormProveedor, {
+        proveedor: item
+    })
 }
 
 </script>
@@ -17,12 +62,12 @@ const openModal = (action: string) => {
     <div class="flex justify-center flex-col items-center mt-5 gap-4">
         <div class="w-full flex justify-center flex-col rounded-lg items-center">
             <div class=" overflow-x-scroll w-full lg:w-5/6 ">
+                <div>
+                    <button class="btn btn-success" @click="openNewProveedor">NUEVO</button>
+                </div>
                 <table class="text-sm text-left  text-gray-500 dark:text-gray-400 w-full">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
-                                ID
-                            </th>
                             <th scope="col" class="px-6 py-3">
                                 Nombre
                             </th>
@@ -44,57 +89,26 @@ const openModal = (action: string) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
+                        <tr v-for="(item, _) in PROVEDOR_DATA" :key="item.id"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple MacBook Pro 17"
-                            </th>
                             <td class="px-6 py-4">
-                                Silver
+                                {{ item.name }}
                             </td>
                             <td class="px-6 py-4">
-                                Laptop
+                                {{ item.address }}
                             </td>
                             <td class="px-6 py-4">
-                                $2999
+                                {{ item.phone_number }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="#"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                {{ item.code }}
                             </td>
                             <td class="px-6 py-4">
-                                $2999
+                                {{ item.ruc }}
                             </td>
                             <td class="px-6 py-4 space-x-2">
-                                <ButtonV @click="openModal('edit')" title="Editar" modifer="btn-info btn-sm" />
-                                <ButtonV @click="openModal('delete')" title="Eliminar" modifer="btn-error btn-sm" />
-                            </td>
-                        </tr>
-                        <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Microsoft Surface Pro
-                            </th>
-                            <td class="px-6 py-4">
-                                White
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop PC
-                            </td>
-                            <td class="px-6 py-4">
-                                $1999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="#"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop PC
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop PC
+                                <ButtonV @click="openModalEditProveedor('edit', item)" title="Editar" modifer="btn-info btn-sm" />
+                                <ButtonV @click="openDelteProveedor(item)" title="Eliminar" modifer="btn-error btn-sm" />
                             </td>
                         </tr>
                     </tbody>
@@ -126,7 +140,7 @@ const openModal = (action: string) => {
     </div>
 
 
-    <ModalV v-model="isModalOpen">
+    <!-- <ModalV v-model="isModalOpen">
         <template #title>
             <h1 v-if="currentAction === 'edit'" class="text-xl font-bold text-center">Proveedores</h1>
             <h1 v-if="currentAction === 'delete'" class="text-xl font-bold text-center">Eliminar Proveedor</h1>
@@ -143,6 +157,6 @@ const openModal = (action: string) => {
                 </div>
             </div>
         </template>
-    </ModalV>
+    </ModalV> -->
 
 </template>

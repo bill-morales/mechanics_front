@@ -1,5 +1,16 @@
-<template>
+<script setup lang="ts">
+import { PUBLIC_ROUTES } from '@/router/namedRoutes';
+import { useAuthStore } from '@/stores/Auth';
+import { useRouter } from 'vue-router';
+    const authStore = useAuthStore()
+    const router = useRouter()
+    const logout = () => {
+        authStore.resetAuthStore()
+        router.push(PUBLIC_ROUTES.LOGIN)
+    }
+</script>
 
+<template>
     <div class="navbar bg-gray-900" draggable="false">
         <div class="flex-1">
             <a class="btn btn-ghost text-xl text-stone-300"  >Mecanica</a>
@@ -14,11 +25,9 @@
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-48 p-2 shadow">
-                    <li><a>Logout</a></li>
+                    <li @click="logout"><a>Logout</a></li>
                 </ul>
             </div>
         </div>
     </div>
-
-
 </template>

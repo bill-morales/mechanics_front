@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import ButtonV from '@/components/buttonV.vue';
 import ModalV from '@/components/ModalV.vue';
+import { useModalStore } from '@/stores/modalStore';
 import { ref } from 'vue';
+import Hola from './Hola.vue';
+
 const isModalOpen = ref(false)
 const openModal = () => {
     isModalOpen.value = true
 }
 
+const modalState = useModalStore()
+
+const testOpen = () => {
+    modalState.openModal('dsadsa', Hola, {})
+}
 
 </script>
 <template>
     <ButtonV />
 
     <!-- You can open the modal using ID.showModal() method -->
-    <button class="btn btn-info" @click="openModal">open modal</button>
+    <button class="btn btn-info" @click="testOpen">open modal</button>
     <ModalV v-model="isModalOpen">
         <template #title>
             <h1 class="text-xl font-bold text-center">Proveedores</h1>
