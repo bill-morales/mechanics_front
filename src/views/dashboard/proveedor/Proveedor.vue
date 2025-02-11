@@ -4,6 +4,8 @@ import FormProveedor from '@/views/dashboard/proveedor/FormProveedor.vue';
 import { useModalStore } from '@/stores/modalStore';
 import type { IProveedor } from './types';
 import AlertForDelete from '@/components/AlertForDelete.vue';
+import { ProveedorService } from './proveedorService';
+import { onMounted, ref } from 'vue';
 
 const PROVEDOR_DATA: IProveedor[] = [
     {
@@ -31,27 +33,52 @@ const PROVEDOR_DATA: IProveedor[] = [
         ruc: "1234567890",
     }
 ]
-
+const proveedores = ref<IProveedor[]>([])
+const listarProveedores = async()=>{
+ try {
+  const response= await  ProveedorService.getProveedores()
+  proveedores.value = response.data.results
+console.log(response)
+ } catch (error) {
+    console.error(error);
+    
+ }
+}
+onMounted(()=>{
+    listarProveedores()
+})
+//USE MODAL STORE
 const modalStore = useModalStore()
 
 const openNewProveedor = () => {
-    modalStore.openModal('Nuevo Proveedor', FormProveedor, {})
+    modalStore.openModal('Nuevo Proveedor', FormProveedor, {
+        proveedor: null
+    })
 }
 
-const handleDelete = (item: IProveedor) => {
-    console.log("peticion para elimianar proveedor")
+const handleDelete = async (item: IProveedor) => {
+    try {
+       const res = await ProveedorService.deleteProveedores(item)
+       console.log(res)
+        listarProveedores()
+        modalStore.closeModal()
+    } catch (error) {
+        console.error("Error al eliminar el proveedor:", error);
+    }
+    console.log("peticion para elimianar proveedor"+item)
 }
 
 const openDelteProveedor = (item: IProveedor) => {
     modalStore.openModal('Eliminar Proveedor', AlertForDelete, {
-        msg: "Segiro que quieres eliminar el proveedor",
+        msg: "Seguro que quieres eliminar el proveedor?",
         onDelete: () => handleDelete(item)
     })
 } 
 
 const openModalEditProveedor = (action: string, item: IProveedor) => {
     modalStore.openModal('Nuevo Proveedor', FormProveedor, {
-        proveedor: item
+        proveedor: item,
+        listarProvs:()=>listarProveedores()
     })
 }
 
@@ -89,7 +116,7 @@ const openModalEditProveedor = (action: string, item: IProveedor) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, _) in PROVEDOR_DATA" :key="item.id"
+                        <tr v-for="(item, _) in proveedores" :key="item.id"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td class="px-6 py-4">
                                 {{ item.name }}
@@ -140,23 +167,6 @@ const openModalEditProveedor = (action: string, item: IProveedor) => {
     </div>
 
 
-    <!-- <ModalV v-model="isModalOpen">
-        <template #title>
-            <h1 v-if="currentAction === 'edit'" class="text-xl font-bold text-center">Proveedores</h1>
-            <h1 v-if="currentAction === 'delete'" class="text-xl font-bold text-center">Eliminar Proveedor</h1>
-        </template>
-        <template #content>
-            <div v-if="currentAction === 'edit'">
-                <FormProveedor />
-            </div>
-            <div v-if="currentAction === 'delete'">
-                <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
-                <p class="text-center my-5">Desea eliminar este registro?</p>
-                <div class="text-right">
-                    <ButtonV class="btn-error" title="Eliminar" modifer="btn-error" />
-                </div>
-            </div>
-        </template>
-    </ModalV> -->
+
 
 </template>

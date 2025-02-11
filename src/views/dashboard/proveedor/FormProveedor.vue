@@ -4,10 +4,13 @@ import { defineForm, field, isValidForm, toObject } from "vue-yup-form";
 import * as yup from 'yup';
 import { ref, shallowRef } from 'vue';
 import type { IProveedor } from "./types";
-
+import { ProveedorService } from "./proveedorService";
+import { useModalStore } from "@/stores/modalStore";
+const modalStore = useModalStore()
 interface ProveedorProps {
     data: {
-        proveedor: IProveedor | null
+        proveedor: IProveedor | null,
+        listarProvs?: () => void | undefined
     }
 }
 
@@ -27,12 +30,21 @@ const submitting = ref(false);
 const form = shallowRef(generateForm(props.data.proveedor));
 
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
     submitted.value = true;
     submitting.value = true;
     if (!isValidForm(form.value)) return
     const proveedor: IProveedor = toObject(form.value);
-    console.log(proveedor)
+    proveedor.id = props.data.proveedor?.id;
+    try {
+     const res =  props.data.proveedor ?  await ProveedorService.updateProveedores(proveedor) : await ProveedorService.createProveedores(proveedor)
+      console.log(res)
+      props.data.listarProvs?.()
+      modalStore.closeModal() 
+      
+    } catch (error:any) {
+      console.error(error.message)        
+    }
 }
 </script>
 

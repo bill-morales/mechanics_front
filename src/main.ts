@@ -16,4 +16,10 @@ import { faCoffee, faUser, fas } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faCoffee, faUser, fas)
 const pinia = createPinia()
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(pinia).use(router).use(axios).use(router).mount('#app')
+const app = createApp(App)
+
+    app.component('font-awesome-icon', FontAwesomeIcon)
+    app.use(pinia)
+    app.use(router)
+    app.config.globalProperties.$axios = axios
+    app.mount('#app')

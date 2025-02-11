@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Crear una instancia de Axios
 const apiClient = axios.create({
-  baseURL: 'https://api.example.com', // Cambia esto a tu URL base
+  baseURL: 'http://127.0.0.1:8000/api', // Cambia esto a tu URL base
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,7 +12,8 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Agregar un encabezado de autenticación
-    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    const token = user ? JSON.parse(user).token : null;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
