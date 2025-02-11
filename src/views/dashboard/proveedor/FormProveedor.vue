@@ -5,12 +5,11 @@ import * as yup from 'yup';
 import { ref, shallowRef } from 'vue';
 import type { IProveedor } from "./types";
 import { ProveedorService } from "./proveedorService";
-import { useModalStore } from "@/stores/modalStore";
-const modalStore = useModalStore()
+
 interface ProveedorProps {
     data: {
         proveedor: IProveedor | null,
-        listarProvs?: () => void | undefined
+        onClose: (res: boolean) => void
     }
 }
 
@@ -37,11 +36,11 @@ const handleSubmit = async () => {
     const proveedor: IProveedor = toObject(form.value);
     proveedor.id = props.data.proveedor?.id;
     try {
-     const res =  props.data.proveedor ?  await ProveedorService.updateProveedores(proveedor) : await ProveedorService.createProveedores(proveedor)
-      console.log(res)
-      props.data.listarProvs?.()
-      modalStore.closeModal() 
-      
+     props.data.proveedor ?  await ProveedorService.updateProveedores(proveedor) : await ProveedorService.createProveedores(proveedor)
+    //   if (props.data.listarProvs) await props.data.listarProvs()
+    //   props.data.listarProvs?.()
+    //   modalStore.closeModal() 
+        props.data.onClose(true)
     } catch (error:any) {
       console.error(error.message)        
     }

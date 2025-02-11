@@ -5,67 +5,56 @@ import { useModalStore } from '@/stores/modalStore';
 import type { IProveedor } from './types';
 import AlertForDelete from '@/components/AlertForDelete.vue';
 import { ProveedorService } from './proveedorService';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { usePagination } from '@/pagination/usePagination';
+import { useToast } from 'vue-toast-notification';
 
-const PROVEDOR_DATA: IProveedor[] = [
-    {
-        id: 1,
-        name: 'Proveedor 1',
-        code: '123456',
-        address: 'Calle 123',
-        phone_number: '1234567890',
-        ruc: '1234567890',
-    },
-    {
-        id: 1,
-        name: 'Proveedor 2',
-        code: '123456',
-        address: 'Calle 123',
-        phone_number: '1234567890',
-        ruc: '1234567890',
-    },
-    {
-        id: 1,
-        name: "Proveedor 3",
-        code: "434343",
-        address: "Calle 123",
-        phone_number: "1234567890",
-        ruc: "1234567890",
-    }
-]
+const $toast = useToast();
+
 const proveedores = ref<IProveedor[]>([])
-const listarProveedores = async()=>{
- try {
-  const response= await  ProveedorService.getProveedores()
-  proveedores.value = response.data.results
-console.log(response)
- } catch (error) {
-    console.error(error);
-    
- }
+
+const { currentPage, total, pageSize, nextPage, prevPage, changePageSize, setTotal } = usePagination()
+
+const listarProveedores = async (currentPage: number, pageSize: number) => {
+    try {
+        const response = await ProveedorService.getProveedores(currentPage, pageSize)
+        proveedores.value = response.data.results
+        setTotal(response.data.count)
+    } catch (error) {
+        console.error(error);
+    }
 }
-onMounted(()=>{
-    listarProveedores()
+
+onMounted(() => {
+    listarProveedores(currentPage.value, pageSize.value)
 })
 //USE MODAL STORE
 const modalStore = useModalStore()
 
 const openNewProveedor = () => {
     modalStore.openModal('Nuevo Proveedor', FormProveedor, {
-        proveedor: null
+        proveedor: null,
+        onClose: function (res: boolean) {
+            if (res) {
+                listarProveedores(1, pageSize.value)
+                modalStore.closeModal()
+                $toast.success('Proveedor creado correctamente!', {duration: 3000});
+            }
+        }
     })
 }
 
 const handleDelete = async (item: IProveedor) => {
     try {
-       const res = await ProveedorService.deleteProveedores(item)
-       console.log(res)
-        listarProveedores()
+        const res = await ProveedorService.deleteProveedores(item)
+        console.log(res)
+        listarProveedores(1, pageSize.value)
         modalStore.closeModal()
+        $toast.info('Proveedor eliminado correctamente!', {duration: 3000});
     } catch (error) {
         console.error("Error al eliminar el proveedor:", error);
     }
-    console.log("peticion para elimianar proveedor"+item)
+    console.log("peticion para elimianar proveedor" + item)
 }
 
 const openDelteProveedor = (item: IProveedor) => {
@@ -73,14 +62,24 @@ const openDelteProveedor = (item: IProveedor) => {
         msg: "Seguro que quieres eliminar el proveedor?",
         onDelete: () => handleDelete(item)
     })
-} 
+}
 
-const openModalEditProveedor = (action: string, item: IProveedor) => {
+const openModalEditProveedor = (item: IProveedor) => {
     modalStore.openModal('Nuevo Proveedor', FormProveedor, {
         proveedor: item,
-        listarProvs:()=>listarProveedores()
+        onClose: function (res: boolean) {
+            if (res) {
+                listarProveedores(currentPage.value, pageSize.value)
+                modalStore.closeModal()
+                $toast.success('Proveedor actualizado correctamente!', {duration: 3000});
+            }
+        }
     })
 }
+
+watch([pageSize, currentPage], ([newPageSize, newCurrentPage], _) => {
+    listarProveedores(newCurrentPage, newPageSize)
+})
 
 </script>
 
@@ -134,8 +133,10 @@ const openModalEditProveedor = (action: string, item: IProveedor) => {
                                 {{ item.ruc }}
                             </td>
                             <td class="px-6 py-4 space-x-2">
-                                <ButtonV @click="openModalEditProveedor('edit', item)" title="Editar" modifer="btn-info btn-sm" />
-                                <ButtonV @click="openDelteProveedor(item)" title="Eliminar" modifer="btn-error btn-sm" />
+                                <ButtonV @click="openModalEditProveedor(item)" title="Editar"
+                                    modifer="btn-info btn-sm" />
+                                <ButtonV @click="openDelteProveedor(item)" title="Eliminar"
+                                    modifer="btn-error btn-sm" />
                             </td>
                         </tr>
                     </tbody>
@@ -143,23 +144,27 @@ const openModalEditProveedor = (action: string, item: IProveedor) => {
             </div>
             <div class="mt-5 sm:w-5/6 w-full gap-4  flex justify-between items-center">
                 <div class=" space-x-4">
-                    <p class="inline">rows per page </p>
-                    <select class="select select-bordered  select-sm w-auto">
-                        <option disabled selected>Who shot first?</option>
-                        <option>Han Solo</option>
-                        <option>Greedo</option>
+                    <p class="inline">filas por página </p>
+                    <select class="select select-bordered  select-sm w-auto"
+                        @change="(e) => changePageSize(parseInt((e.target as HTMLSelectElement).value))"
+                        :value="pageSize">
+                        <!-- <option disabled selected>Who shot first?</option> -->
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
                     </select>
                 </div>
                 <div class=" space-x-4">
                     <span class="text-sm text-gray-700">
-                        Showing <span class="font-semibold text-gray-900 ">1</span> to <span
-                            class="font-semibold text-gray-900 ">10</span> of <span
-                            class="font-semibold text-gray-900 ">100</span>
+                        Showing <span class="font-semibold text-gray-900 ">{{ currentPage * pageSize - pageSize + 1
+                            }}</span> to <span class="font-semibold text-gray-900 ">{{ pageSize * currentPage }}</span>
+                        of <span class="font-semibold text-gray-900 ">{{ total }}</span>
                         Entries
                     </span>
                     <div class="join">
-                        <button class="join-item btn">«</button>
-                        <button class="join-item btn">»</button>
+                        <button class="join-item btn" @click="prevPage">«</button>
+                        <button class="join-item btn" @click="nextPage">»</button>
                     </div>
                 </div>
             </div>

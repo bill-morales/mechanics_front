@@ -13,13 +13,17 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faCoffee, faUser, fas } from '@fortawesome/free-solid-svg-icons'
 
+/* TOAST */
+import ToastPlugin from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
 /* add icons to the library */
 library.add(faCoffee, faUser, fas)
 const pinia = createPinia()
 const app = createApp(App)
-
-    app.component('font-awesome-icon', FontAwesomeIcon)
-    app.use(pinia)
-    app.use(router)
-    app.config.globalProperties.$axios = axios
-    app.mount('#app')
+app.use(ToastPlugin);
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.use(pinia)
+app.use(router)
+app.config.globalProperties.$axios = axios
+app.mount('#app')

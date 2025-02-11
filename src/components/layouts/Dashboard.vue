@@ -70,11 +70,4 @@ const toggle = () => {
       <HeaderDash/>
       <router-view />
    </div>
-
-
-
-
-
-
-
 </template>
