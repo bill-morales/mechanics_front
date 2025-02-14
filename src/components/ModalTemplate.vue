@@ -34,3 +34,14 @@ watch(() => modalStore.modalState.isOpen, (newValue) => {
         </div>
     </dialog>
 </template>
+<style scoped>
+.modal{
+    z-index: 0 !important;
+}
+.modal-box {
+    z-index: 0 !important;
+}
+.v-toast__item {
+  z-index: 9999 !important; /* Asegúrate de que sea mayor que el z-index del modal */
+}
+</style>

@@ -15,15 +15,27 @@ const rutasDash = reactive<RutasDash[]>([
       current: false
    },
    {
+      name: 'productos',
+      icon: 'fa-solid fa-gauge',
+      href: 'dashboard-productos',
+      current: false
+   },
+   {
       name: 'Proveedores',
       icon: 'fa-solid fa-truck',
       href: 'dashboard-Proveedores',
       current: false
    },
    {
-      name: 'productos',
+      name: 'Tipo productos',
       icon: 'fa-solid fa-gauge',
-      href: 'dashboard-productos',
+      href: 'dashboard-tipoproductos',
+      current: false
+   },
+   {
+      name: 'Marcas',
+      icon: 'fa-solid fa-gauge',
+      href: 'dashboard-marcas',
       current: false
    },
    {

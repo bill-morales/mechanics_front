@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import { useToast } from 'vue-toast-notification';
+const $toast = useToast();
 // Crear una instancia de Axios
 const apiClient = axios.create({
   baseURL: 'http://127.0.0.1:8000/api', // Cambia esto a tu URL base
@@ -37,21 +38,27 @@ apiClient.interceptors.response.use(
     if (error.response) {
       // El servidor respondió con un código de estado fuera del rango 2xx
       switch (error.response.status) {
+        case 400:
+          // Manejar el caso de error de validación
+          $toast.error(error.response.data.detail, { duration: 3000 });
+          break;
         case 401:
           // Redirigir al usuario a la página de inicio de sesión si no está autorizado
-          window.location.href = '/login';
+          $toast.error('Sesión expirada, por favor inicie sesion nuevamente');
+          window.location.href = '/';
           break;
         case 403:
           // Manejar el caso de acceso prohibido
-          console.error('Acceso prohibido:', error.response.data.message);
+          $toast.error('Acceso prohibido');
           break;
         case 404:
           // Manejar el caso de recurso no encontrado
-          console.error('Recurso no encontrado:', error.response.data.message);
+          $toast.error('Recurso no encontrado:');
           break;
         case 500:
           // Manejar el caso de error interno del servidor
-          console.error('Error interno del servidor:', error.response.data.message);
+          $toast.error('Error interno del servidor: Contacte a soporte técnico 926590107');
+
           break;
         default:
           // Manejar otros códigos de estado
@@ -59,10 +66,11 @@ apiClient.interceptors.response.use(
       }
     } else if (error.request) {
       // La solicitud fue hecha pero no se recibió respuesta
-      console.error('No se recibió respuesta del servidor:', error.request);
+      $toast.error('El servidor no responde, contacte a soporte técnico 926590107');
     } else {
       // Algo pasó al configurar la solicitud que desencadenó un error
-      console.error('Error al configurar la solicitud:', error.message);
+      $toast.error('Error al configurar la solicitud:');
+
     }
     return Promise.reject(error);
   }
