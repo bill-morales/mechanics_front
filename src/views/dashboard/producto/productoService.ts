@@ -1,10 +1,13 @@
 import apiClient from "@/services/api";
 import type { IResponsePagination } from "@/types/reponse";
-import type { Iproducto } from "./types";
+import type { FilterProductos, Iproducto } from "./types";
 
 export class productoService{
-    static async getProducto(page: number, pageSize: number) {
-        const url = `/products?page=${page}&page_size=${pageSize}`
+    static async getProducto(page: number, pageSize: number,filter:FilterProductos|null=null) {
+        let url = `/products?page=${page}&page_size=${pageSize}`
+        if(filter){
+            url += `&supplier_id=${filter.id_supplier}&type_product_id=${filter.id_type_product}&mark_product_id=${filter.id_mark_product}`
+        }
         return  await  apiClient.get<IResponsePagination<Iproducto>>(url);
     }
     static async getIdProducto(id:number){

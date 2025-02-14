@@ -22,3 +22,8 @@ export interface Iproducto {
     mark_product?: Imarca
     inventory?: any
   }
+export interface FilterProductos {
+  id_supplier: string
+  id_type_product: string
+  id_mark_product: string
+}

@@ -37,12 +37,6 @@ const rutasDash = reactive<RutasDash[]>([
       icon: 'fa-solid fa-gauge',
       href: 'dashboard-marcas',
       current: false
-   },
-   {
-      name: 'Ingresos',
-      icon: 'fa-solid fa-box',
-      href: 'dashboard-ingresos',
-      current: false
    }
 ])
 const isToogle = ref(false)
