@@ -108,7 +108,7 @@ watch([pageSize, currentPage], ([newPageSize, newCurrentPage], _) => {
                             <td class="px-6 py-4">
                                 {{ item.name }}
                             </td>
-                            <td class="px-6 py-4 space-x-2">
+                            <td class="px-6 py-4 space-x-2 text-center">
                                 <ButtonV @click="openModalEditProveedor(item)" title="Editar"
                                     modifer="btn-info btn-sm" />
                                 <ButtonV @click="openDelteTipoProducto(item)" title="Eliminar"

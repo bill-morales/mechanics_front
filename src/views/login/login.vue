@@ -24,7 +24,7 @@ const { values, errors, defineField } = useForm<LoginForm>({
 const [username] = defineField('username');
 const [password] = defineField('password');
 const errorsLogin = ref<string | null>(null);
-const {setAuthStore} = useAuthStore()
+const { setAuthStore } = useAuthStore()
 const router = useRouter()
 
 const onSubmit = () => {
@@ -37,7 +37,7 @@ const onSubmit = () => {
     })
 }
 
-const getUserInfo = async(token: string) => {
+const getUserInfo = async (token: string) => {
     loginMe(token).then((response) => {
         setAuthStore(token, response.data.username)
         router.push('/dashboard')
@@ -53,11 +53,16 @@ const getUserInfo = async(token: string) => {
     <div class="hero bg-base-200 min-h-screen">
         <div class="hero-content flex-col lg:flex-row-reverse">
             <div class="text-center lg:text-left">
-                <h1 class="text-5xl font-bold">Login now!</h1>
+                <div class="flex items-center justify-center lg:justify-start gap-2">
+                    <h1 class="text-5xl font-bold">RepStore<span class="text-primary">Cloud</span></h1>
+                    <img src="/icon.png" alt="Icono" class="w-20" />
+                </div>
                 <p class="py-6">
-                    Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                    quasi. In deleniti eaque aut repudiandae et a id nisi.
+                    Bienvenido a RepStoreCloud.
                 </p>
+                <!-- <p class="py-6">
+                    Bienvenido a RepStoreCloud, la mejor plataforma para gestionar tu inventario de repuestos.
+                </p> -->
             </div>
             <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                 <form class="card-body" @submit.prevent="onSubmit">

@@ -1,4 +1,6 @@
+import { useAuthStore } from '@/stores/Auth';
 import axios from 'axios';
+import { set } from 'date-fns';
 import { useToast } from 'vue-toast-notification';
 const $toast = useToast();
 // Crear una instancia de Axios
@@ -44,8 +46,16 @@ apiClient.interceptors.response.use(
           break;
         case 401:
           // Redirigir al usuario a la página de inicio de sesión si no está autorizado
-          $toast.error('Sesión expirada, por favor inicie sesion nuevamente');
-          window.location.href = '/';
+          const authStore = useAuthStore();
+          // toas with on coinfirm button
+          $toast.error('No autorizado, inicie sesión de nuevo', {
+            duration: 2000, 
+            onDismiss: () => {
+              window.location.href = '/';
+              authStore.resetAuthStore();
+            },
+            pauseOnHover: true,
+          });
           break;
         case 403:
           // Manejar el caso de acceso prohibido

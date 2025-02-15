@@ -13,7 +13,7 @@ import { useRouter } from 'vue-router';
 <template>
     <div class="navbar bg-gray-900" draggable="false">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl text-stone-300"  >Mecanica</a>
+            <a class="btn btn-ghost text-xl text-stone-300"  >RepStoreCloud</a>
         </div>
         <div class="flex-none gap-2">
             <div class="dropdown dropdown-end">

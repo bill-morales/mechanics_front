@@ -18,6 +18,8 @@
     "@vee-validate/rules": "^4.15.0",
     "@vee-validate/yup": "^4.15.0",
     "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "pinia": "^2.3.1",
     "tailwindcss": "^3.4.17",
     "vee-validate": "^4.15.0",

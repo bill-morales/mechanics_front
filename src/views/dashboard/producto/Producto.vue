@@ -154,84 +154,84 @@ watch([pageSize, currentPage], ([newPageSize, newCurrentPage]) => {
     <div class="flex justify-center flex-col items-center mt-5 gap-4">
         <div class="w-full flex justify-center flex-col rounded-lg items-center">
             <div class=" overflow-x-scroll w-full lg:w-5/6 ">
-                <table class="text-sm text-left  text-gray-500 dark:text-gray-400 w-full">
+                <table class="text-sm text-left  text-gray-500 dark:text-gray-400 w-full table table-md">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="">
                                 Tipo
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="">
                                 Codigo
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="">
                                 Modelo
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Altura
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Ancho
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Largo
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                diametro externo
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-center">
-                                detalles
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-center">
-                                stock
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="text-center">
                                 proveedor
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="text-center">
                                 marca
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="text-center">
+                                stock
+                            </th>
+                            <th scope="col" class="">
+                                Altura
+                            </th>
+                            <th scope="col" class="">
+                                Ancho
+                            </th>
+                            <th scope="col" class="">
+                                Largo
+                            </th>
+                            <th scope="col" class="">
+                                diametro externo
+                            </th>
+                            <th scope="col" class="text-center">
+                                detalles
+                            </th>
+                            <th scope="col" class="text-center">
                                 acciones
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in productos" :key="item.id"
+                        <tr v-for="item in productos" :key="item.id" @click="item?.id !== undefined && goToHistorial(Number(item.id))"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="px-6 py-4">
+                            <td class="text-nowrap">
                                 {{ item.type_product?.name }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="">
                                 {{ item.code_product }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="">
                                 {{ item.model }}
                             </td>
-                            <td class="px-6 py-4">
-                                {{ item.high }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ item.width }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ item.long }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ item.diameter_ext }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ item.inf_extra }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ item.inventory.cant }}
-                            </td>
-                            <td class="px-6 py-4">
+                            <td class="text-nowrap">
                                 {{ item.supplier?.name }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="">
                                 {{ item.mark_product?.name }}
                             </td>
-                            <td class="px-6 py-4 flex gap-3">
+                            <td class="">
+                                {{ item.inventory.cant }}
+                            </td>
+                            <td class="">
+                                {{ item.high }}
+                            </td>
+                            <td class="">
+                                {{ item.width }}
+                            </td>
+                            <td class="">
+                                {{ item.long }}
+                            </td>
+                            <td class="">
+                                {{ item.diameter_ext }}
+                            </td>
+                            <td class="">
+                                {{ item.inf_extra }}
+                            </td>
+                            <td class="flex gap-3">
                                 <ButtonV @click="openEditModal(item)" title="Editar" modifer="btn-info btn-sm" />
                                 <ButtonV @click="item?.id !== undefined && goToHistorial(Number(item.id))"
                                     title="historial" modifer="btn-warning btn-sm" />
