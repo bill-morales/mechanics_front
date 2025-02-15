@@ -65,7 +65,7 @@ const router = createRouter({
 })
 
 // Middleware
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const { userStore } = useAuthStore();
   if (to.path == PUBLIC_ROUTES.LOGIN && userStore.isAuthenticated) {
     next("/dashboard")

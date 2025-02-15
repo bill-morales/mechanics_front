@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, withDefaults, computed } from 'vue'
+import { withDefaults, computed } from 'vue'
 interface Props {
   title?: string,
   modifer?: string,
