@@ -46,13 +46,13 @@ const generateForm = (producto: Iproducto | null = null) => {
     return defineForm({
         code_product: field(producto?.code_product || '', yup.string().required('Codigo producto requerido')),
         model: field(producto?.model || '', yup.string().required('modelo requerido')),
-        high: field(producto?.high || '', yup.string().required('altura requerido')),
-        width: field(producto?.width || '', yup.string().required('ancho requerido')),
-        long: field(producto?.long || '', yup.string().required('largo requerido')),
-        diameter_ext: field(producto?.diameter_ext || '', yup.string().required('diametro externo requerido')),
-        diameter_int: field(producto?.diameter_int || '', yup.string().required('diametro interior requerido')),
+        high: field(producto?.high || '', yup.string().nullable()),
+        width: field(producto?.width || '', yup.string().nullable()),
+        long: field(producto?.long || '', yup.string().nullable()),
+        diameter_ext: field(producto?.diameter_ext || '', yup.string().nullable()),
+        diameter_int: field(producto?.diameter_int || '', yup.string().nullable()),
         inf_extra: field(producto?.inf_extra || '', yup.string().required('detalles requerido')),
-        stock_initial: field(producto?.inventory.cant || 5, yup.number().required('stock requerido').typeError('Debe ser un número')),
+        stock_initial: field(producto?.inventory.cant || 0, yup.number().required('stock requerido').typeError('Debe ser un número')),
         id_supplier: field(producto?.id_supplier || flag, yup.number().required('proveedor requerido')),
         id_type_product: field(producto?.id_type_product || flag2, yup.number().required('proveedor requerido')),
         id_mark_product: field(producto?.id_mark_product || flag3, yup.number().required('proveedor requerido')),
@@ -85,7 +85,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Codigo producto</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input type="text" placeholder="Ingrese codigo producto" class="input input-bordered input-sm"
                 v-model="form.code_product.$value" />
             <p v-if="submitted && form.code_product.$error" class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{ form.code_product.$error?.message }}</span>
@@ -96,7 +96,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Modelo</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input type="text" placeholder="Ingrese modelo" class="input input-bordered input-sm"
                 v-model="form.model.$value" />
             <p v-if="submitted && form.model.$error" class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{ form.model.$error?.message }}</span>
@@ -106,7 +106,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Alto</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm" v-model="form.high.$value" />
+            <input type="text" placeholder="Ingrese alto" class="input input-bordered input-sm" v-model="form.high.$value" />
             <p v-if="submitted && form.high.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.high.$error.message }}</span></p>
         </div>
@@ -114,7 +114,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Ancho</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm" v-model="form.width.$value" />
+            <input type="text" placeholder="Ingrese ancho" class="input input-bordered input-sm" v-model="form.width.$value" />
             <p v-if="submitted && form.width.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.width.$error.message }}</span></p>
         </div>
@@ -122,7 +122,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">longitud</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm" v-model="form.long.$value" />
+            <input type="text" placeholder="Ingrese longitud" class="input input-bordered input-sm" v-model="form.long.$value" />
             <p v-if="submitted && form.long.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.long.$error.message }}</span></p>
         </div>
@@ -130,7 +130,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">diametro exterior</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input type="text" placeholder="Ingrese diametro exterior" class="input input-bordered input-sm"
                 v-model="form.diameter_ext.$value" />
             <p v-if="submitted && form.diameter_ext.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.diameter_ext.$error.message }}</span></p>
@@ -139,7 +139,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">diametro interior</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input type="text" placeholder="Ingrese diametro interior" class="input input-bordered input-sm"
                 v-model="form.diameter_int.$value" />
             <p v-if="submitted && form.diameter_int.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.diameter_int.$error.message }}</span></p>
@@ -148,7 +148,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">detalle</span>
             </label>
-            <input type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input type="text" placeholder="Ingrese detalle" class="input input-bordered input-sm"
                 v-model="form.inf_extra.$value" />
             <p v-if="submitted && form.inf_extra.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.inf_extra.$error.message }}</span></p>
@@ -157,7 +157,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">stock inicial</span>
             </label>
-            <input type="number" placeholder="Usuario" class="input input-bordered input-sm"
+            <input type="number" placeholder="Ingrese stock inicial" class="input input-bordered input-sm"
                 v-model="form.stock_initial.$value" />
             <p v-if="submitted && form.stock_initial.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.stock_initial.$error.message }}</span></p>
