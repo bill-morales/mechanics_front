@@ -13,6 +13,6 @@ export class tipoProductService{
         return  await apiClient.put("/typeproducts",data);
     }
    static async deleteTipoProducto(data:ItipoProducto){
-       return  await apiClient.delete(`/suppliers/${data.id}/supplier`);
+       return  await apiClient.delete(`/typeproducts/${data.id}/type_product`);
    }
 }

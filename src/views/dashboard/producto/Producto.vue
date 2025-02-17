@@ -196,7 +196,7 @@ watch([pageSize, currentPage], ([newPageSize, newCurrentPage]) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in productos" :key="item.id" @click="item?.id !== undefined && goToHistorial(Number(item.id))"
+                        <tr v-for="item in productos" :key="item.id"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td class="text-nowrap">
                                 {{ item.type_product?.name }}
