@@ -1,11 +1,11 @@
+import { API_URL } from '@/constants';
 import { useAuthStore } from '@/stores/Auth';
 import axios from 'axios';
-import { set } from 'date-fns';
 import { useToast } from 'vue-toast-notification';
 const $toast = useToast();
 // Crear una instancia de Axios
 const apiClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api', // Cambia esto a tu URL base
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
