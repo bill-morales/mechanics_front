@@ -55,7 +55,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Nombre</span>
             </label>
-            <input id="email" type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input id="email" type="text" placeholder="Ingrese nombre" class="input input-bordered input-sm"
                 v-model="form.name.$value" />
             <p v-if="submitted && form.name.$error" class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{ form.name.$error?.message }}</span>
@@ -65,7 +65,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Dirección</span>
             </label>
-            <input id="email" type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input id="email" type="text" placeholder="ingrese dirección" class="input input-bordered input-sm"
                 v-model="form.address.$value" />
             <p v-if="submitted && form.address.$error" class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{ form.address.$error?.message }}</span>
@@ -76,7 +76,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Teléfono</span>
             </label>
-            <input id="email" type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input id="email" type="text" placeholder="Ingrese teléfono" class="input input-bordered input-sm"
                 v-model="form.phone_number.$value" />
             <p v-if="submitted && form.phone_number.$error" class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{ form.phone_number.$error?.message }}</span>
@@ -86,7 +86,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Codigo</span>
             </label>
-            <input id="email" type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input id="email" type="text" placeholder="Ingrese codigo" class="input input-bordered input-sm"
                 v-model="form.code.$value" />
             <p v-if="submitted && form.code.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.code.$error.message }}</span></p>
@@ -95,7 +95,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">RUC</span>
             </label>
-            <input id="email" type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input id="email" type="text" placeholder="Ingrese RUC" class="input input-bordered input-sm"
                 v-model="form.ruc.$value" />
             <p v-if="submitted && form.ruc.$error" class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                     class="font-medium">{{ form.ruc.$error.message }}</span></p>

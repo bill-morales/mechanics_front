@@ -52,7 +52,7 @@ const handleSubmit = async () => {
             <label class="label">
                 <span class="label-text">Nombre</span>
             </label>
-            <input id="email" type="text" placeholder="Usuario" class="input input-bordered input-sm"
+            <input id="email" type="text" placeholder="Ingrese nombre" class="input input-bordered input-sm"
                 v-model="form.name.$value" />
             <p v-if="submitted && form.name.$error" class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{ form.name.$error?.message }}</span>

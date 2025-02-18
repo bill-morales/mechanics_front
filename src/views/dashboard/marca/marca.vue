@@ -32,13 +32,13 @@ onMounted(() => {
 const modalStore = useModalStore()
 
 const openNewProveedor = () => {
-    modalStore.openModal('Nuevo Proveedor', FormMarca, {
+    modalStore.openModal('Nueva marca', FormMarca, {
         marca: null,
         onClose: function (res: boolean) {
             if (res) {
                 listarMarcas(1, pageSize.value)
                 modalStore.closeModal()
-                $toast.success('Proveedor creado correctamente!', {duration: 3000});
+                $toast.success('Marca creado correctamente!', { duration: 3000 });
             }
         }
     })
@@ -50,28 +50,28 @@ const handleDelete = async (item: Imarca) => {
         console.log(res)
         listarMarcas(1, pageSize.value)
         modalStore.closeModal()
-        $toast.info('Proveedor eliminado correctamente!', {duration: 3000});
+        $toast.info('Marca eliminado correctamente!', { duration: 3000 });
     } catch (error) {
-        console.error("Error al eliminar tipo producto:", error);
+        console.error("Error al eliminar Marca:", error);
     }
-    console.log("peticion para eliminar tipo producto" + item)
+    console.log("peticion para eliminar Marca" + item)
 }
 
 const openDelteTipoProducto = (item: Imarca) => {
     modalStore.openModal('Eliminar Proveedor', AlertForDelete, {
-        msg: "Seguro que quieres eliminar tipo producto?",
+        msg: "Seguro que quieres eliminar esta marca?",
         onDelete: () => handleDelete(item)
     })
 }
 
 const openModalEditProveedor = (item: Imarca) => {
-    modalStore.openModal('Nuevo Tipo producto', FormMarca, {
+    modalStore.openModal('Nueva marca', FormMarca, {
         marca: item,
         onClose: function (res: boolean) {
             if (res) {
                 listarMarcas(currentPage.value, pageSize.value)
                 modalStore.closeModal()
-                $toast.success('Tipo producto actualizado correctamente!', {duration: 3000});
+                $toast.success('Marca actualizado correctamente!', { duration: 3000 });
             }
         }
     })
@@ -84,13 +84,16 @@ watch([pageSize, currentPage], ([newPageSize, newCurrentPage]) => {
 </script>
 
 <template>
-
+    <div class="flex justify-center flex-col items-center mt-5 gap-4">
+        <div class="w-full flex justify-center flex-col rounded-lg items-start lg:w-5/6 gap-5">
+            <div>
+                <button class="btn btn-success" @click="openNewProveedor">NUEVO</button>
+            </div>
+        </div>
+    </div>
     <div class="flex justify-center flex-col items-center mt-5 gap-4">
         <div class="w-full flex justify-center flex-col rounded-lg items-center">
             <div class=" overflow-x-scroll w-full lg:w-5/6 ">
-                <div>
-                    <button class="btn btn-success" @click="openNewProveedor">NUEVO</button>
-                </div>
                 <table class="text-sm text-left  text-gray-500 dark:text-gray-400 w-full">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -133,10 +136,10 @@ watch([pageSize, currentPage], ([newPageSize, newCurrentPage]) => {
                 </div>
                 <div class=" space-x-4">
                     <span class="text-sm text-gray-700">
-                        Showing <span class="font-semibold text-gray-900 ">{{ currentPage * pageSize - pageSize + 1
-                            }}</span> to <span class="font-semibold text-gray-900 ">{{ pageSize * currentPage }}</span>
-                        of <span class="font-semibold text-gray-900 ">{{ total }}</span>
-                        Entries
+                        Mostrando <span class="font-semibold text-gray-900 ">{{ currentPage * pageSize - pageSize + 1
+                        }}</span> a <span class="font-semibold text-gray-900 ">{{ pageSize * currentPage }}</span>
+                        de <span class="font-semibold text-gray-900 ">{{ total }}</span>
+                        registros
                     </span>
                     <div class="join">
                         <button class="join-item btn" @click="prevPage">«</button>

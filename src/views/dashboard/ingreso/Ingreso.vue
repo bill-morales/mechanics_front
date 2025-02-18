@@ -124,10 +124,10 @@
             </select></div>
             <div class=" space-x-4">
             <span class="text-sm text-gray-700">
-                Showing <span class="font-semibold text-gray-900 ">1</span> to <span
-                    class="font-semibold text-gray-900 ">10</span> of <span
+                Mostrando <span class="font-semibold text-gray-900 ">1</span> a <span
+                    class="font-semibold text-gray-900 ">10</span> de <span
                     class="font-semibold text-gray-900 ">100</span>
-                Entries
+                registros
             </span>
             <div class="join">
                 <button class="join-item btn">«</button>

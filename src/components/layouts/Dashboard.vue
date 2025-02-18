@@ -28,13 +28,13 @@ const rutasDash = reactive<RutasDash[]>([
    },
    {
       name: 'Tipo productos',
-      icon: 'fa-solid fa-gauge',
+      icon: 'fa-solid fa-wrench',
       href: 'dashboard-tipoproductos',
       current: false
    },
    {
       name: 'Marcas',
-      icon: 'fa-solid fa-gauge',
+      icon: 'fa-solid fa-users',
       href: 'dashboard-marcas',
       current: false
    }

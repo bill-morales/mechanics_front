@@ -199,10 +199,10 @@ watch([pageSize, currentPage], ([newPageSize, newCurrentPage]) => {
                 </div>
                 <div class=" space-x-4">
                     <span class="text-sm text-gray-700">
-                        Showing <span class="font-semibold text-gray-900 ">{{ currentPage * pageSize - pageSize + 1
-                            }}</span> to <span class="font-semibold text-gray-900 ">{{ pageSize * currentPage }}</span>
-                        of <span class="font-semibold text-gray-900 ">{{ total }}</span>
-                        Entries
+                        Mostrando <span class="font-semibold text-gray-900 ">{{ currentPage * pageSize - pageSize + 1
+                            }}</span> a <span class="font-semibold text-gray-900 ">{{ pageSize * currentPage }}</span>
+                        de <span class="font-semibold text-gray-900 ">{{ total }}</span>
+                        registros
                     </span>
                     <div class="join">
                         <button class="join-item btn" @click="prevPage">«</button>
